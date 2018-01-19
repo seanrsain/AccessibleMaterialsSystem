@@ -1,2 +1,4 @@
 # jdc7324
-Junior Design Project
+Junior Implementation Project
+Team 7324
+Accessible Materials and Student Inventory System
