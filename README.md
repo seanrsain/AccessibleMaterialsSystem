@@ -1,6 +1,6 @@
 ![alt text](https://s3-us-west-2.amazonaws.com/sernjs/sernlogo.jpg "sernlogo")
 
-# Welcome to sern.js Stack
+# Welcome to sean.js Stack
 
 sern.js is a Full-Stack Javascript for an easy starting point with SequelizeJS, ExpressJS, PassportJS, ReactJS and NodeJS based applications.
 
