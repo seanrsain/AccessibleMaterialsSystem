@@ -5,14 +5,14 @@
     "database": "sern_development",
     "host": "127.0.0.1",
     "port": "5432",
-    "dialect": "postgres"
+    "dialect": "mysql"
   },
   "test": {
     "username": "",
     "password": "",
     "database": "sern_test",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "mssql"
   },
   "production": {
     "use_env_variable": "DATABASE_URL"

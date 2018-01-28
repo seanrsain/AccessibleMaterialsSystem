@@ -5,11 +5,11 @@ var reload = require('reload');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var watch = require('watch');
-var sequelize = require('sequelize');
+// var sequelize = require('sequelize');
 var PrettyError = require('pretty-error');
 var cookieParser = require('cookie-parser');
 var cookieEncrypter = require('cookie-encrypter');
-var models = require("./server/models/");
+// var models = require("./server/models/");
 var session = require('express-session');
 var passport = require('passport');
 var cookieSecretKey = process.env.COOKIE_SECRET_KEY;
@@ -51,15 +51,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // API Routes
-app.use('/api/counter', require('./routes/api/v1/counter.js'));
-app.use('/api/user', require('./routes/api/v1/user.js'));
-app.use('/api/readme', require('./routes/api/v1/readme.js'));
+// app.use('/api/counter', require('./routes/api/v1/counter.js'));
+// app.use('/api/user', require('./routes/api/v1/user.js'));
+// app.use('/api/readme', require('./routes/api/v1/readme.js'));
 
 // Index Routes
 app.use('*', require('./routes/index.js'));
 
 // Sync models THEN start server
-models.sequelize.sync().then(function () {
+// models.sequelize.sync().then(function () {
 
   var server = http.createServer(app);
   server.listen(app.get('port'), function () {
@@ -74,4 +74,4 @@ models.sequelize.sync().then(function () {
     reloadServer.reload();
   });
 
-});
+// });
