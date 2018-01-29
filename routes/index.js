@@ -8,4 +8,5 @@ router.get('/', function (req, res) {
   res.sendFile(path.join(VIEWS_DIR ,'/index.html'));
 });
 
+
 module.exports = router;
