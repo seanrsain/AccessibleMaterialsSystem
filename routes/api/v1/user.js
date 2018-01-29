@@ -7,6 +7,7 @@ var passport = require("passport");
 
 
 function signInUser(req, res, error, user, info){
+  console.log(error)
   if(error) { return res.status(500).json(error); }
   if(!user) { return res.status(401).json(info.message); }
   var userId = user.id;

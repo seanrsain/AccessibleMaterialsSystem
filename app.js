@@ -5,11 +5,11 @@ var reload = require('reload');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var watch = require('watch');
-// var sequelize = require('sequelize');
+var sequelize = require('sequelize');
 var PrettyError = require('pretty-error');
 var cookieParser = require('cookie-parser');
 var cookieEncrypter = require('cookie-encrypter');
-// var models = require("./server/models/");
+var models = require("./server/models/");
 var session = require('express-session');
 var passport = require('passport');
 var cookieSecretKey = process.env.COOKIE_SECRET_KEY;
@@ -59,12 +59,13 @@ app.use('/api/readme', require('./routes/api/v1/readme.js'));
 app.use('*', require('./routes/index.js'));
 
 // Sync models THEN start server
-// models.sequelize.sync().then(function () {
+var server = http.createServer(app);
+models.sequelize.sync().then(function () {
 
-  var server = http.createServer(app);
   server.listen(app.get('port'), function () {
     console.log('App is listening on port '+PORT_NUM+'! Visit localhost:'+PORT_NUM+' in your browser.');
   });
+});
 
   // Reload code here
   var reloadServer = reload(server, app);

@@ -1,18 +1,25 @@
 {
   "development": {
-    "username": "jnwjenadxwzvgw",
-    "password": "89bac3b5343787afa1eeffd31605d7e549d950844e433e3e255305f928dc53ec",
-    "database": "de01sskj7o0et3",
-    "host": "ec2-54-235-240-126.compute-1.amazonaws.com",
-    "port": "5432",
-    "dialect": "pg"
+    "username": "wupbjiemldxczz",
+    "password": "7b736c27ec7dcff3d40359e18396b3a11392e6dd298374a21deaabb230edad23",
+    "database": "dfuhlfvadp0p05",
+    "port": 5432,
+    "host": "ec2-54-225-103-255.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "ssl" : true,
+    "dialectOptions":{
+      "ssl":{
+         "require":true
+      }
+   }
   },
   "test": {
     "username": "jnwjenadxwzvgw",
     "password": "89bac3b5343787afa1eeffd31605d7e549d950844e433e3e255305f928dc53ec",
     "database": "de01sskj7o0et3",
+    "port": "5432",
     "host": "ec2-54-235-240-126.compute-1.amazonaws.com",
-    "dialect": "pg"
+    "dialect": "postgres"
   },
   "production": {
     "use_env_variable": "DATABASE_URL"
