@@ -1,18 +1,18 @@
 {
   "development": {
-    "username": "",
-    "password": "",
-    "database": "sern_development",
-    "host": "127.0.0.1",
+    "username": "jnwjenadxwzvgw",
+    "password": "89bac3b5343787afa1eeffd31605d7e549d950844e433e3e255305f928dc53ec",
+    "database": "de01sskj7o0et3",
+    "host": "ec2-54-235-240-126.compute-1.amazonaws.com",
     "port": "5432",
-    "dialect": "mysql"
+    "dialect": "pg"
   },
   "test": {
-    "username": "",
-    "password": "",
-    "database": "sern_test",
-    "host": "127.0.0.1",
-    "dialect": "mssql"
+    "username": "jnwjenadxwzvgw",
+    "password": "89bac3b5343787afa1eeffd31605d7e549d950844e433e3e255305f928dc53ec",
+    "database": "de01sskj7o0et3",
+    "host": "ec2-54-235-240-126.compute-1.amazonaws.com",
+    "dialect": "pg"
   },
   "production": {
     "use_env_variable": "DATABASE_URL"
