@@ -43,6 +43,7 @@ require('./server/config/passport')(app);
 app.use(cookieParser(cookieSecretKey));
 app.use(cookieEncrypter(cookieSecretKey));
 app.use(session({
+
   secret: sessionSecretKey,
   resave: false,
   saveUninitialized: true
@@ -50,8 +51,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// API Routes
-app.use('/api/counter', require('./routes/api/v1/counter.js'));
+// API Routes 
 app.use('/api/user', require('./routes/api/v1/user.js'));
 app.use('/api/readme', require('./routes/api/v1/readme.js'));
 

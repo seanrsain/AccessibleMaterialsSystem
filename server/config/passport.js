@@ -8,7 +8,7 @@ module.exports = function(app){
   // Serialize
 
   passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user.id);
   });
 
   // Deserialize
@@ -22,17 +22,21 @@ module.exports = function(app){
   // For login purposes
 
   passport.use('local', new LocalStrategy({
-      usernameField: 'email',
+      usernameField: 'username',
       passwordField: 'password'
     },
     function(username, password, done){
-      models.user.findOne({ where: {email: username} }).then(function(user){
+      models.user.findOne({ where: {username: username} }).then(function(user){
         if (!user) {
           console.log("USER NOT FOUND");
-          return done(null, false);
+          return done(null, false, {
+            message: "User not registered"
+          });
         }
         if (!user.validPassword(password)) {
-          return done(null, false);
+          return done(null, false, {
+            message: "Invalid password, try again"
+          });
         }
         return done(null, user);
       });
@@ -43,17 +47,20 @@ module.exports = function(app){
 
   passport.use('local-signup', new LocalStrategy({
       passReqToCallback: true,
-      usernameField: 'email',
+      usernameField: 'username',
       passwordField: 'password'
     },
     function(req, username, password, done){
       models.user.create({
-        email: username,
+        username: username,
         password: password
       }).then(function(user) {
+        console.log(user);
         return done(null, user);
-      }).catch(function() {
-        return done(null, false);
+      }).catch(function(err) {
+        return done(null, false, {
+          message: err
+        });
       });
     }
   ));

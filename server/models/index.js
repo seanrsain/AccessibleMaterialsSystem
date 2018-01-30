@@ -12,7 +12,6 @@ if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
-  console.log(sequelize);
 }
 
 fs
@@ -22,11 +21,13 @@ fs
   })
   .forEach(function(file) {
     var model = sequelize['import'](path.join(__dirname, file));
+    console.log('Model', model)
     db[model.name] = model;
   });
 
 Object.keys(db).forEach(function(modelName) {
   if (db[modelName].associate) {
+    console.log('ModelNAme', modelName);
     db[modelName].associate(db);
   }
 });
