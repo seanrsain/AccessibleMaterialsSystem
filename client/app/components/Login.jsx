@@ -2,49 +2,41 @@ import React from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router';
 import Store from '../reducers/store.js';
-import { Card, CardTitle, CardText, RaisedButton, TextField } from 'material-ui';
 
 var Login = React.createClass({
 
   _submit: function(e) {
     e.preventDefault();
     // TODO: Use AjaxPromise.
-    $.post("api/user/login", $("#login-form").serialize())
-      .done(function(data){
-        console.log(data);
-        Store.dispatch({
-          type: "USER_SESSION",
-          user: data,
-          snack: "Welcome back! We missed you :)"
-        });
-      })
-      .fail(function(data){
-        console.log("Login error", data);
-      });
+    // $.post("api/user/login", $("#login-form").serialize())
+    //   .done(function(data){
+    //     console.log(data);
+    //     Store.dispatch({
+    //       type: "USER_SESSION",
+    //       user: data,
+    //       snack: "Welcome back! We missed you :)"
+    //     });
+    //   })
+    //   .fail(function(data){
+    //     console.log("Login error", data);
+    //   });
   },
 
   render: function() {
     return (
-      <div className="row">
-        <Card className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
-          <form id="login-form" className="text-center" onSubmit={this._submit}>
-            <CardTitle title="Login with Email" />
-
-            <div className="field-line">
-              <TextField ref="email" floatingLabelText="Email" name="email" />
-            </div>
-
-            <div className="field-line">
-              <TextField ref="password" floatingLabelText="Password" type="password" name="password" />
-            </div>
-
-            <div className="button-line">
-              <RaisedButton type="submit" label="Log in" primary={true} />
-            </div>
-
-            <CardText>Don't have an account? <Link to={`/signup`}>Create one</Link></CardText>
-          </form>
-        </Card>
+      <div className="Login">
+        <h3 className="Login__title">Login</h3>
+        <form id="login-form" className="Login__form" onSubmit={this._submit}>
+          <label htmlFor="username">Username</label>
+          <input type="text" name="username" className="Login__input" />
+          <label htmlFor="password">Password 
+            <span className="Login__forgotPassword">(<a href="">forgot password?</a>)</span>
+          </label>
+          <input type="password" name="password" className="Login__input" />
+          <button type="submit" className="Login__submit">Log In</button>
+          <div>Don't have an account?</div>
+          <Link to={`/signup`} className="Login__createAccount">Create a patron account >></Link>
+        </form>
       </div>
     );
   }

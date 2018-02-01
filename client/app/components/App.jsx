@@ -4,7 +4,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import NavBar from './NavBar.jsx';
 import Footer from './Footer.jsx';
-import MainSnackbar from './MainSnackbar.jsx';
 import Store from '../reducers/store.js';
 import loadingUntil from '../reducers/loading.js';
 import AjaxPromise from 'ajax-promise';
@@ -64,7 +63,6 @@ class App extends React.Component {
   }
 
   render () {
-    console.log(this.state.isLoading);
     return (
         <div>
           <NavBar {...this.state} />
@@ -74,7 +72,6 @@ class App extends React.Component {
             </div>
           </main>
           <Footer {...this.state} />
-          <MainSnackbar {...this.state} />
         </div>
     );
   }

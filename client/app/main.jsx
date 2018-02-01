@@ -1,20 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Router, IndexRoute, browserHistory } from 'react-router';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import App from './components/App.jsx';
 import Home from './components/Home.jsx';
-import Docs from './components/Docs.jsx';
-import Login from './components/Login.jsx';
-import SignUp from './components/SignUp.jsx';
-import Users from './components/Users.jsx';
+import Splash from './components/Splash.jsx';
+import Students from './components/Students.jsx';
+import Orders from './components/Orders.jsx';
 import Store from './reducers/store.js';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 const target = document.getElementById('app');
-
-injectTapEventPlugin();
 
 function redirectIfSignedIn(){
   var state = Store.getState();
@@ -34,7 +27,7 @@ function redirectUnlessSignedIn(){
   if(state.user){
     console.log("User is present");
   } else {
-    browserHistory.replace('/');
+    browserHistory.replace('/login');
   }
 }
 
@@ -45,16 +38,13 @@ function refresh() {
 }
 
 var routes = ReactDOM.render(
-  <MuiThemeProvider>
     <Router history={browserHistory}>
-      <Route path="/" component={App}>
+      <Route path="/login" component={Splash} onChange={redirectIfSignedIn} onEnter={redirectIfSignedIn}/>
+      <Route path="/" component={App} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}>
         <IndexRoute component={Home}/>
-        <Route path="docs" component={Docs} />
-        <Route path="login" component={Login} onChange={redirectIfSignedIn} onEnter={redirectIfSignedIn}/>
-        <Route path="signup" component={SignUp} onChange={redirectIfSignedIn} onEnter={redirectIfSignedIn}/>
-        <Route path="users" component={Users} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}/>
+        <Route path="students" component={Students} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}/>
+        <Route path="orders" component={Orders} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}/>
       </Route>
-    </Router>
-  </MuiThemeProvider>,
+    </Router>,
   target
 );

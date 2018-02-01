@@ -1,0 +1,55 @@
+.Splash {
+	display: flex;
+	flex-direction: row;
+}
+
+.Splash__info {
+	flex: 1 1 auto;
+	position: relative;
+	padding: 32px 32px 0;
+	background: #3395fb;
+	color: white;
+}
+
+.Splash__title {
+	font-size: 48px;
+	line-height: 48px;
+	margin: 0;
+}
+
+.Splash__text {
+	margin-top: 28px;
+	max-width: 750px;
+}
+
+.Splash__patronButtons {
+	margin-top: 12px;
+}
+
+.Splash__button {
+	@extend .btn;
+ 	color: #3395fb;
+ 	margin-right: 12px;
+}
+
+.Splash__footer {
+	position: absolute;
+	bottom: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: calc(100% - 64px);
+	padding: 24px 0;
+	border-top: 2px solid rgba(255,255,255,0.5);
+}
+
+.Splash__footerLink {
+	color: white;
+	margin-right: 32px;
+}
+
+.Splash__login {
+	flex: 0 0 auto;
+	width: 30%;
+	max-width: 350px;
+}

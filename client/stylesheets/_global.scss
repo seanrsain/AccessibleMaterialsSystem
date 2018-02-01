@@ -1,0 +1,22 @@
+html {
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 21px;
+}
+
+body {
+	margin: 0;
+}
+
+div#app > div:first-child{
+  min-height: 100vh;
+}
+
+a {
+	color: #3395fb;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
