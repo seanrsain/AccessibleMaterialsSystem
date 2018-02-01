@@ -21,7 +21,10 @@ var config = {
     loaders: [{
       test: /\.jsx?/,
       include: APP_DIR,
-      loader: 'babel'
+      loader: 'babel',
+      query: {
+          presets: ['es2015', 'react']
+      }
     }, {
       test: /\.scss$/,
       include: STYLE_DIR,
