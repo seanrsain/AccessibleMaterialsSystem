@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import Store from '../reducers/store.js';
 
 var SignUp = React.createClass({
@@ -11,39 +11,40 @@ var SignUp = React.createClass({
     $.post("api/user/signup", $("#signup-form").serialize())
       .done(function(data){
         console.log(data);
-        Store.dispatch({
-          type: "USER_SESSION",
-          user: data,
-          snacks: ["You're signed in! Welcome.", "Thank you for creating an account!"]
-        });
+        alert(`User ${data.username} successfully signed up.`);
+        browserHistory.replace('/');
+        // Store.dispatch({
+        //   type: "USER_SESSION",
+        //   user: data,
+        //   snacks: ["You're signed in! Welcome.", "Thank you for creating an account!"]
+        // });
       })
       .fail(function(data){
-        console.log("Signup error", data);
+        console.log("Signup error: ", data.responseText);
       });
   },
 
   render: function() {
     return (
-      <div className="row">
-        // <Card className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
-        //   <form id="signup-form" className="text-center" action="/" onSubmit={this._submit}>
-        //     <CardTitle title="Sign Up with Email" />
-
-        //     <div className="field-line">
-        //       <TextField ref="email" floatingLabelText="Email" name="email"/>
-        //     </div>
-
-        //     <div className="field-line">
-        //       <TextField ref="password" floatingLabelText="Password" type="password" name="password"/>
-        //     </div>
-
-        //     <div className="button-line">
-        //       <RaisedButton type="submit" label="Create New Account" primary={true} />
-        //     </div>
-
-        //     <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
-        //   </form>
-        // </Card>
+      <div className="Signup">
+        <h1 className="Signup__title">Signup</h1>
+        <form id="signup-form" className="Signup__form" onSubmit={this._submit}>
+          <label htmlFor="name">Full Name</label>
+          <input type="text" name="name" className="Signup__input" />
+          <label htmlFor="email">Email</label>
+          <input type="email" name="email" className="Signup__input" />
+          <label htmlFor="username">Username</label>
+          <input type="text" name="username" className="Signup__input" />
+          <label htmlFor="password">Password 
+            <span className="Signup__forgotPassword"></span>
+          </label>
+          <input type="password" name="password" className="Signup__input" />
+          <label htmlFor="confirm_password">Confirm Password</label>
+          <input type="password" name="confirm_password" className="Signup__input" />
+          <button type="submit" className="Signup__submit">Sign Up</button>
+          <div>Already have an account?</div>
+          <Link to={`/login`} className="Signup__createAccount">Log in to your account >></Link>
+        </form>
       </div>
     );
   }

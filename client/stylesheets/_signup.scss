@@ -1,24 +1,24 @@
-.Login {
+.Signup {
 	padding: 32px;
 }
 
-.Login__title {
+.Signup__title {
 	font-size: 24px;
 	line-height: 24px;
 	margin: 0 0 48px;
 }
 
-.Login__form {
+.Signup__form {
 	
 }
 
-.Login__input {
+.Signup__input {
 	@extend .input;
 	width: 100%;
 	margin: 6px 0 24px;
 }
 
-.Login__forgotPassword {
+.Signup__forgotPassword {
 	margin-left: 5px;
 	color: #777;
 	font-style: italic;
@@ -28,13 +28,13 @@
 	}
 }
 
-.Login__submit {
+.Signup__submit {
 	@include btn(#3395fb);
 	width: 100%;
 	color: white;
 	margin: 16px 0 40px;
 }
 
-.Login__createAccount {
+.Signup__createAccount {
 	color: #3395fb;
 }

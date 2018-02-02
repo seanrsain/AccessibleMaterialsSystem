@@ -27,7 +27,7 @@
 }
 
 .Splash__button {
-	@extend .btn;
+	@include btn(white);
  	color: #3395fb;
  	margin-right: 12px;
 }

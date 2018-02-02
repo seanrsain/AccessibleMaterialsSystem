@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Router, IndexRoute, browserHistory } from 'react-router';
 import App from './components/App.jsx';
-import Home from './components/Home.jsx';
 import Splash from './components/Splash.jsx';
+import Login from './components/Login.jsx';
+import Signup from './components/Signup.jsx';
+import Home from './components/Home.jsx';
 import Students from './components/Students.jsx';
 import Orders from './components/Orders.jsx';
 import Store from './reducers/store.js';
@@ -39,7 +41,10 @@ function refresh() {
 
 var routes = ReactDOM.render(
     <Router history={browserHistory}>
-      <Route path="/login" component={Splash} onChange={redirectIfSignedIn} onEnter={redirectIfSignedIn}/>
+      <Route path="/login" component={Splash} onChange={redirectIfSignedIn} onEnter={redirectIfSignedIn}>
+        <IndexRoute component={Login}/>
+        <Route path="/signup" component={Signup}/>
+      </Route>
       <Route path="/" component={App} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}>
         <IndexRoute component={Home}/>
         <Route path="students" component={Students} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}/>

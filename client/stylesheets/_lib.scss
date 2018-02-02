@@ -1,14 +1,19 @@
-.btn{
+// Mixins
+
+@mixin btn($color) {
   border: none;
   border-radius: 7px;
   padding: 10px 15px;
   height: 40px;
   line-height: 20px;
-  background: white;
+  background: linear-gradient(lighten($color, 3%) 50%, $color 50%, $color 100%);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
 }
+
+
+// Partials
 
 .input {
   display: block;
@@ -26,4 +31,12 @@
     border: 2px solid #B0B0B0;
     background: #F3F3F3;
   }
+}
+
+.pageTitle {
+  font-size: 48px;
+  line-height: 48px;
+  color: #777;
+  margin: 0;
+  padding: 30px 0;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import Store from '../reducers/store.js';
 
 var Login = React.createClass({
@@ -8,18 +8,20 @@ var Login = React.createClass({
   _submit: function(e) {
     e.preventDefault();
     // TODO: Use AjaxPromise.
-    // $.post("api/user/login", $("#login-form").serialize())
-    //   .done(function(data){
-    //     console.log(data);
-    //     Store.dispatch({
-    //       type: "USER_SESSION",
-    //       user: data,
-    //       snack: "Welcome back! We missed you :)"
-    //     });
-    //   })
-    //   .fail(function(data){
-    //     console.log("Login error", data);
-    //   });
+    $.post("api/user/login", $("#login-form").serialize())
+      .done(function(data){
+        console.log(data);
+        alert(`User ${data.username} successfully logged in.`);
+        browserHistory.replace('/');
+        // Store.dispatch({
+        //   type: "USER_SESSION",
+        //   user: data,
+        //   snack: "Welcome back! We missed you :)"
+        // });
+      })
+      .fail(function(data){
+        console.log("Login error: ", data.responseText);
+      });
   },
 
   render: function() {

@@ -1,0 +1,17 @@
+.App {
+	position: relative;
+}
+
+.App__container {
+	box-sizing: border-box;
+	width: 100vw;
+	height: 100vh;
+	padding: 0 32px;
+	background: #F0F0F0;
+}
+
+.App__content {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding-top: 20px;
+}

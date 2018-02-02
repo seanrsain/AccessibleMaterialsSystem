@@ -1,0 +1,12 @@
+.Home {
+
+}
+
+.Home__title {
+	@extend .pageTitle;
+}
+
+.Home__logout {
+	@include btn(#3395fb);
+	color: white;
+}

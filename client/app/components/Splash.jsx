@@ -25,7 +25,7 @@ var Splash = React.createClass({
           </div>
         </div>
         <div className="Splash__login">
-          <Login />
+          { this.props.children }
         </div>
       </div>
     );

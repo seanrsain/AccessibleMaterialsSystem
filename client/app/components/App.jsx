@@ -64,14 +64,13 @@ class App extends React.Component {
 
   render () {
     return (
-        <div>
+        <div className="App">
           <NavBar {...this.state} />
-          <main className="site-content">
-            <div className="wrap container-fluid">
+          <main className="App__container">
+            <div className="App__content">
               {this.state.isLoading ? "Loading..." : this.props.children && React.cloneElement(this.props.children, this.state)}
             </div>
           </main>
-          <Footer {...this.state} />
         </div>
     );
   }
