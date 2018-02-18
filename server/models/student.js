@@ -25,7 +25,8 @@ module.exports = function(sequelize, DataTypes) {
     Secondary2ReadingMediumTypeID: { type: DataTypes.INTEGER},
     NeedIMaterialsCert: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false},
     APHID: { type: DataTypes.INTEGER},
-    ParentConsent: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false}
+    ParentConsent: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false},
+    PatronID: {type: DataTypes.INTEGER}
   });
 
   return Student;

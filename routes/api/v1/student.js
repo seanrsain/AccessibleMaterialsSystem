@@ -16,5 +16,19 @@ router.post('/register', function(req, res, next) {
    })
 });
 
+router.get('/getstudents', function(req, res, next) {
+  models.student.findAll({
+    where: {
+      PatronID: req.headers.patronid
+    }
+  }).catch(
+    function(error) {
+      res.status(401).json({'error': error});
+    }
+  ).done(function(allStudents) {
+    res.status(200).json(allStudents);
+  });
+});
+
 
 module.exports = router;
