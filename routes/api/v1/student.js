@@ -16,10 +16,10 @@ router.post('/register', function(req, res, next) {
    })
 });
 
-router.get('/getstudents', function(req, res, next) {
+router.get('/students', function(req, res, next) {
   models.student.findAll({
     where: {
-      PatronID: req.headers.patronid
+      PatronID: req.query.patronid
     }
   }).catch(
     function(error) {
