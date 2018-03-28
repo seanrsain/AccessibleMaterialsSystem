@@ -62,20 +62,20 @@ app.use('*', require('./routes/index.js'));
 
 // Sync models THEN start server
 var server = http.createServer(app);
-models.sequelize.sync().then(function () {
+models.sequelize.sync().then(function() {
 
-  server.listen(app.get('port'), function () {
-    console.log('App is listening on port '+PORT_NUM+'! Visit localhost:'+PORT_NUM+' in your browser.');
+  server.listen(app.get('port'), function() {
+    console.log('App is listening on port ' + PORT_NUM + '! Visit localhost:' + PORT_NUM + ' in your browser.');
   });
 });
 
-  // Reload code here
-  var reloadServer = reload(server, app);
+// Reload code here
+var reloadServer = reload(server, app);
 
-  watch.watchTree(__dirname + "/client", function (f, curr, prev) {
-    // Fire server-side reload event
-    reloadServer.reload();
-  });
+watch.watchTree(__dirname + "/client", function(f, curr, prev) {
+  // Fire server-side reload event
+  reloadServer.reload();
+});
 
 
 // });

@@ -4,9 +4,12 @@ var models = require('../../../server/models');
 var sessionHelper = require('../../../server/helpers/session');
 
 router.post('/add', function(req, res, next) {
+  req.body.PatronID = sessionHelper.currentUserId(req, res);
   models.order.create(req.body).catch(
     function(error) {
-      res.status(401).json({'error': error});
+      res.status(401).json({
+        'error': error
+      });
     }
   ).done(function(newOrder) {
     console.log(req.body);
@@ -22,7 +25,9 @@ router.get('/orders', function(req, res, next) {
     }
   }).catch(
     function(error) {
-      res.status(401).json({'error': error});
+      res.status(401).json({
+        'error': error
+      });
     }
   ).done(function(allOrders) {
     res.status(200).json(allOrders);
