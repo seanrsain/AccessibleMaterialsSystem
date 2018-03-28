@@ -5,26 +5,25 @@ var sessionHelper = require('../../../server/helpers/session');
 
 
 router.post('/register', function(req, res, next) {
-   // req.body.DisabilityTypeCert = 1;
-   // req.body.DistrictID = 1;
-   // req.body.CountyID = 1;
-   // req.body.EducationFacilityTypeID = 1;
-   // req.body.GaTestingID = 1;
-   // req.body.GradeID = 1;
-   // req.body.LanguageID = 1;
-   // req.body.CertExamTypeID = 1;
-   // req.body.WrittenPlanTypeID = 1;
-   // req.body.PrimaryReadingMediumTypeID = 1;
-   // req.body.Secondary1ReadingMediumTypeID = 1;
-   // req.body.Secondary1ReadingMediumTypeID = 1;
-   // req.body.Secondary2ReadingMediumTypeID = 1;
-   // req.body.NeedIMaterialsCert = true;
-   // req.body.APHID = 1;
-   // req.body.ParentConsent = true;
-   // req.body.PatronID = 1;
-   // req.body.DOB = new Date('2014-04-03');
-   // req.body.DateWrittenPlan = new Date('2014-04-03');
-   // req.body.DateLatestEyeExam = new Date('2014-04-03');
+   req.body.DisabilityTypeCert = parseInt(req.body.DisabilityTypeCert);
+   req.body.DistrictID = parseInt(req.body.DistrictID);
+   req.body.CountyID = parseInt(req.body.CountyID);
+   req.body.EducationFacilityTypeID = parseInt(req.body.EducationFacilityTypeID);
+   req.body.GaTestingID = parseInt(req.body.GaTestingID);
+   req.body.GradeID = parseInt(req.body.GradeID);
+   req.body.LanguageID = parseInt(req.body.LanguageID);
+   req.body.CertExamTypeID = parseInt(req.body.CertExamTypeID);
+   req.body.WrittenPlanTypeID = parseInt(req.body.WrittenPlanTypeID);
+   req.body.PrimaryReadingMediumTypeID = parseInt(req.body.PrimaryReadingMediumTypeID);
+   req.body.Secondary1ReadingMediumTypeID = parseInt(req.body.Secondary1ReadingMediumTypeID);
+   req.body.Secondary2ReadingMediumTypeID = parseInt(req.body.Secondary2ReadingMediumTypeID);;
+   //req.body.NeedIMaterialsCert = true;
+   req.body.APHID = parseInt(req.body.APHID);
+   //req.body.ParentConsent = true;
+   req.body.PatronID = sessionHelper.currentUserId(req, res);
+   req.body.DOB = new Date(req.body.DOB);
+   req.body.DateWrittenPlan = new Date(req.body.DateWrittenPlan);
+   req.body.DateLatestEyeExam = new Date(req.body.DateLatestEyeExam);
    models.student.create(req.body).catch(
      function(error) {
        res.status(401).json({'error': error});
