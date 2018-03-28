@@ -252,9 +252,9 @@ class Students extends React.Component {
               </select>
 
               <label htmlFor="NeedIMaterialsCert">The need for accessible educational materials is documented in the students written plan (IEP, 504, or IFSP only)</label><br />
-              <input type="radio" id="NeedIMaterialsCert_yes" name="NeedIMaterialsCert" />
+              <input type="radio" id="NeedIMaterialsCert_yes" name="NeedIMaterialsCert" value={true} />
               <label id="NeedIMaterialsCert_yes">Yes</label><br />
-              <input type="radio" id="NeedIMaterialsCert_no" name="NeedIMaterialsCert" />
+              <input type="radio" id="NeedIMaterialsCert_no" name="NeedIMaterialsCert" value={false} />
               <label id="NeedIMaterialsCert_no">No</label><br /><br />
 
               <label htmlFor="APHID">APH registration: This student meets the definition of legal blindness according to an eye report. Eye Reports must be dated one year or less for students entering Special Education Services with an Initial Eligibility. or This student functions at the definition of blindness according to an eye report or neurological exam. Reports must be dated one year or less for students entering Special Education Services with an Initial Eligibility.</label><br />
@@ -264,9 +264,9 @@ class Students extends React.Component {
               <label id="APHID_false">False</label><br /><br />
 
               <label htmlFor="ParentConsent">My district has acquired notarized consent to release this student’s information in order to acquire accessible instructional materials through the Georgia Instructional Materials Center.</label><br />
-              <input type="radio" id="ParentConsent_agree" name="ParentConsent" />
+              <input type="radio" id="ParentConsent_agree" name="ParentConsent" value={true} />
               <label id="ParentConsent_agree">Agree</label><br />
-              <input type="radio" id="ParentConsent_disagree" name="ParentConsent" />
+              <input type="radio" id="ParentConsent_disagree" name="ParentConsent" value={false} />
               <label id="ParentConsent_disagree">Disagree</label><br /><br />
 
               <button type="submit" className="AddStudent__submit">Add Student</button>
