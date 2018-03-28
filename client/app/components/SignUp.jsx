@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { Link, browserHistory } from 'react-router';
 import Store from '../reducers/store.js';
+import { setUser } from '../actions/user.js';
 
 var SignUp = React.createClass({
 
@@ -12,12 +13,8 @@ var SignUp = React.createClass({
       .done(function(data){
         console.log(data);
         alert(`User ${data.username} successfully signed up.`);
-        browserHistory.replace('/');
-        // Store.dispatch({
-        //   type: "USER_SESSION",
-        //   user: data,
-        //   snacks: ["You're signed in! Welcome.", "Thank you for creating an account!"]
-        // });
+        Store.dispatch(setUser(data));
+        browserHistory.push('/');
       })
       .fail(function(data){
         console.log("Signup error: ", data.responseText);

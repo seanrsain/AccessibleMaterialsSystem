@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Router, IndexRoute, browserHistory } from 'react-router';
 import App from './components/App.jsx';
+import Container from './components/Container.jsx';
 import Splash from './components/Splash.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
@@ -41,14 +42,16 @@ function refresh() {
 
 var routes = ReactDOM.render(
     <Router history={browserHistory}>
-      <Route path="/login" component={Splash} onChange={redirectIfSignedIn} onEnter={redirectIfSignedIn}>
-        <IndexRoute component={Login}/>
-        <Route path="/signup" component={Signup}/>
-      </Route>
-      <Route path="/" component={App} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}>
-        <IndexRoute component={Home}/>
-        <Route path="students" component={Students} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}/>
-        <Route path="orders" component={Orders} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}/>
+      <Route path="/" component={App}>
+        <Route component={Container} onChange={redirectUnlessSignedIn} onEnter={redirectUnlessSignedIn}>
+          <IndexRoute component={Home}/>
+          <Route path="/students" component={Students}/>
+          <Route path="/orders" component={Orders}/>
+        </Route>
+        <Route path="/login" component={Splash} onChange={redirectIfSignedIn} onEnter={redirectIfSignedIn}>
+          <IndexRoute component={Login}/>
+          <Route path="/signup" component={Signup}/>
+        </Route>
       </Route>
     </Router>,
   target

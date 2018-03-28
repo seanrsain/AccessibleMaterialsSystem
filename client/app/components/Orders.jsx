@@ -12,10 +12,10 @@ var Users = React.createClass({
         .get('/api/user')
         .then(function (response) {
           console.log("load users", response);
-          Store.dispatch({
-            type: "LOAD_USERS",
-            users: response
-          });
+          // Store.dispatch({
+          //   type: "LOAD_USERS",
+          //   users: response
+          // });
         })
         .catch(function(err){
           console.log("/api/user/index error", err);

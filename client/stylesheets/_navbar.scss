@@ -1,0 +1,56 @@
+.Navbar {
+	position: fixed;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	height: 42px;
+	background: white;
+	box-shadow: 0 3px 6px rgba(black, 0.16);
+}
+
+.Navbar__logo {
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 42px;
+	color: #3395fb;
+	padding: 0 20px;
+	cursor: pointer;
+}
+
+.Navbar__nav {
+	margin: 0 20px;
+	display: flex;
+	align-items: center;
+}
+
+.Navbar__list {
+	list-style: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+.Navbar__listItem {
+	display: inline-block;
+}
+
+.Navbar__link {
+	padding: 11px 18px;
+	font-size: 14px;
+	line-height: 42px;
+	color: black;
+
+	&:hover {
+		text-decoration: none;
+		border-bottom: 2px solid #3395fb;
+	}
+}
+
+.Navbar__profile {
+	display: inline-block;
+	height: 24px;
+	width: 24px;
+	border-radius: 12px;
+	margin: 0 0 0 11px;
+	background: linear-gradient(gray 0%, black 100%);
+}

@@ -1,29 +1,27 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
-import Store from '../reducers/store.js';
-import DrawerLeft from './DrawerLeft.jsx';
 
-var NavBar = React.createClass({
+var Navbar = React.createClass({
 
   _goToIndex: function(){
     browserHistory.push('/');
   },
 
-  _toggleAppDrawer: function(){
-    Store.dispatch({
-      type: "OPEN_DRAWER",
-      open: true
-    });
-  },
-
   render: function() {
     return (
-      <div className="navbar">
-        <DrawerLeft {...this.props}/>
+      <div className="Navbar">
+        <span className="Navbar__logo" onClick={this._goToIndex}>GIMC</span>
+        <nav className="Navbar__nav">
+          <ul className="Navbar__list">
+            <li className="Navbar__listItem"><Link to={`/students`} className="Navbar__link">Students</Link></li>
+            <li className="Navbar__listItem"><Link to={`/orders`} className="Navbar__link">Orders</Link></li>
+          </ul>
+          <Link to={`/students`} className="Navbar__profile"></Link>
+        </nav>
       </div>
     );
   }
 
 });
 
-export default NavBar;
+export default Navbar;

@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { Link, browserHistory } from 'react-router';
 import Store from '../reducers/store.js';
+import { clearUser } from '../actions/user.js';
 
 var Home = React.createClass({
 
@@ -11,12 +12,8 @@ var Home = React.createClass({
     $.get("api/user/logout")
       .done(function(){
         alert(`User successfully logged out.`);
-        browserHistory.replace('/login');
-        // Store.dispatch({
-        //   type: "USER_SESSION",
-        //   user: data,
-        //   snack: "Welcome back! We missed you :)"
-        // });
+        Store.dispatch(clearUser());
+        browserHistory.push('/login');
       })
       .fail(function(data){
         console.log("Logout error: ", data.responseText);

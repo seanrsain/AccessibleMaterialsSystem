@@ -1,0 +1,125 @@
+.Students {
+
+}
+
+.Students__title {
+	@extend .pageTitle;
+}
+
+.StudentList {
+	@extend .card;
+}
+
+.StudentList__header {
+	@extend .cardHeader;
+}
+
+.StudentList__title {
+	@extend .cardTitle;
+}
+
+.StudentList__actions {
+	@extend .cardActions;
+}
+
+.StudentList__search {
+	@extend .searchBar;
+	flex: 1 1 auto;
+	width: 100%;
+	max-width: 300px;
+	margin: 0 15px 0 30px;
+}
+
+.StudentList__button {
+	@include btn(#3395fb);
+	flex: 0 0 auto;
+	color: white;
+	margin: 0 0 0 10px;
+}
+
+.StudentList__table {
+	width: 100%;
+	margin-top: 15px;
+	border-collapse: collapse;
+}
+
+.StudentList__columnHeader {
+	height: 25px;
+	padding: 5px 10px;
+	background: #999;
+	color: white;
+	font-weight: bold;
+	text-align: left;
+}
+
+.StudentList__columnHeader--checkbox {
+	border-top-left-radius: 7px;
+	width: 20px;
+}
+
+.StudentList__columnHeader--name {}
+
+.StudentList__columnHeader--school {}
+
+.StudentList__columnHeader--disability {}
+
+.StudentList__columnHeader--status {
+	border-top-right-radius: 7px;
+}
+
+.StudentList__row {}
+
+.StudentList__td {
+	height: 30px;
+	padding: 5px 10px;
+	text-align: left;
+	border: 1px solid #999;
+}
+
+
+
+
+
+
+
+
+.AddStudent {
+	padding: 32px;
+}
+
+.AddStudent__title {
+	font-size: 24px;
+	line-height: 24px;
+	margin: 0 0 48px;
+}
+
+.AddStudent__form {
+	
+}
+
+.AddStudent__input {
+	@extend .input;
+	width: 100%;
+	margin: 6px 0 24px;
+}
+
+.AddStudent__forgotPassword {
+	margin-left: 5px;
+	color: #777;
+	font-style: italic;
+
+	& > a {
+		color: #777;
+	}
+}
+
+.AddStudent__submit {
+	@include btn(#3395fb);
+	width: 100%;
+	color: white;
+	margin: 16px 0 40px;
+}
+
+.AddStudent__createAccount {
+	color: #3395fb;
+}
