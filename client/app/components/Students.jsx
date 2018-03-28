@@ -11,7 +11,7 @@ class Students extends React.Component {
 
   constructor(props) {
     super(props);
-  
+
     this.state = {
       addStudentVisible: false,
       currentList: Store.getState().students,
@@ -149,7 +149,7 @@ class Students extends React.Component {
               </select>
 
               <label htmlFor="GaTestingID">GTID</label>
-              <input type="text" name="GaTestingID" className="AddStudent__input" />
+              <input type="number" name="GaTestingID" className="AddStudent__input" />
 
               <label htmlFor="Fname">First Name</label>
               <input type="text" name="Fname" className="AddStudent__input" />
@@ -184,7 +184,7 @@ class Students extends React.Component {
               </select>
 
               <label htmlFor="LanguageID">Language of Instruction</label>
-              <input type="text" name="LanguageID" className="AddStudent__input" />
+              <input type="number" name="LanguageID" className="AddStudent__input" />
 
               <label htmlFor="DateLatestEyeExam">Date of eye report or other print disability certification (<a href="http://www.gadoe.org/Curriculum-Instruction-and-Assessment/Special-Education-Services/GIMC/Documents/Educators/Certification%20to%20receive%20AIM%20eligibility.pdf">http://www.gadoe.org/Curriculum-Instruction-and-Assessment/Special-Education-Services/GIMC/Documents/Educators/Certification%20to%20receive%20AIM%20eligibility.pdf</a>)</label>
               <input type="date" name="DateLatestEyeExam" className="AddStudent__input" />

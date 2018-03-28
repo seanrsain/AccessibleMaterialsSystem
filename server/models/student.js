@@ -4,7 +4,6 @@ var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(sequelize, DataTypes) {
   var Student = sequelize.define('student', {
-    StudentID: { type: DataTypes.INTEGER, primaryKey: true,  autoIncrement: true},
     DisabilityTypeCert: { type: DataTypes.INTEGER},
     DistrictID: { type: DataTypes.INTEGER},
     CountyID: { type: DataTypes.INTEGER},
@@ -19,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     DateLatestEyeExam:{ type: DataTypes.DATE},
     CertExamTypeID: { type: DataTypes.INTEGER},
     WrittenPlanTypeID: { type: DataTypes.INTEGER},
-    DateWrittenPlan: { type: DataTypes.INTEGER},
+    DateWrittenPlan: { type: DataTypes.DATE},
     PrimaryReadingMediumTypeID: { type: DataTypes.INTEGER},
     Secondary1ReadingMediumTypeID: { type: DataTypes.INTEGER},
     Secondary2ReadingMediumTypeID: { type: DataTypes.INTEGER},
