@@ -31,8 +31,6 @@ router.post('/register', function(req, res, next) {
       });
     }
   ).done(function(newStudent) {
-    console.log(req.body);
-    console.log(newStudent);
     res.status(200).json(newStudent);
   })
 });
