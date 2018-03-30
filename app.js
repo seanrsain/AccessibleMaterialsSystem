@@ -56,7 +56,7 @@ app.use('/api/user', require('./routes/api/v1/user.js'));
 app.use('/api/readme', require('./routes/api/v1/readme.js'));
 app.use('/api/student', require('./routes/api/v1/student.js'));
 app.use('/api/order', require('./routes/api/v1/order.js'));
-
+app.use('/api/item', require('./routes/api/v1/item.js'));
 // Index Routes
 app.use('*', require('./routes/index.js'));
 
