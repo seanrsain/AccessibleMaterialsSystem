@@ -1,0 +1,209 @@
+.Orders {
+
+}
+
+.Orders__title {
+	@extend .pageTitle;
+}
+
+.ItemSearch {
+	@extend .card;
+	margin-bottom: 25px;
+}
+
+.ItemSearch__header {
+	@extend .cardHeader;
+}
+
+.ItemSearch__title {
+	@extend .cardTitle;
+}
+
+.ItemSearch__search {
+	@extend .searchBar;
+	width: 100%;
+	margin: 15px 0 5px;
+}
+
+.ItemSearch__results {
+}
+
+.ResultItem {
+	display: flex;
+	align-items: center;
+	padding: 15px 0;
+	border-bottom: 1px solid #D0D0D0;
+
+	&:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+}
+
+.ResultItem__image {
+	flex: 0 0 auto;
+	width: 80px;
+	height: 80px;
+	border: 1px solid #D0D0D0;
+}
+
+.ResultItem__info {
+	flex: 1 1 auto;
+	padding: 0 30px;
+}
+
+.ResultItem__name {
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+
+.ResultItem__description {
+	font-size: 14px;
+	color: #777;
+}
+
+.ResultItem__form {
+	display: flex;
+	flex-direction: row;
+	flex: 0 0 auto;
+}
+
+.ResultItem__input {
+	@extend .input;
+	flex: 0 0 auto;
+	margin: 0 15px;
+}
+
+.ResultItem__input--student {
+	width: 160px;
+}
+
+.ResultItem__input--quantity {
+	width: 80px;
+}
+
+.ResultItem__submit {
+	@include btn(#3395fb);
+	flex: 0 0 auto;
+	color: white;
+	margin: 0 0 0 15px;
+}
+
+.OrderList {
+	@extend .card;
+	margin-bottom: 25px;
+}
+
+.OrderList__header {
+	@extend .cardHeader;
+}
+
+.OrderList__title {
+	@extend .cardTitle;
+}
+
+.OrderList__actions {
+	@extend .cardActions;
+}
+
+.OrderList__search {
+	@extend .searchBar;
+	flex: 1 1 auto;
+	width: 100%;
+	max-width: 300px;
+	margin: 0 15px 0 30px;
+}
+
+.OrderList__button {
+	@include btn(#3395fb);
+	flex: 0 0 auto;
+	color: white;
+	margin: 0 0 0 10px;
+}
+
+.OrderList__table {
+	width: 100%;
+	margin-top: 15px;
+	border-collapse: collapse;
+}
+
+.OrderList__columnHeader {
+	height: 25px;
+	padding: 5px 10px;
+	background: #999;
+	color: white;
+	font-weight: bold;
+	text-align: left;
+}
+
+.OrderList__columnHeader--checkbox {
+	border-top-left-radius: 7px;
+	width: 20px;
+}
+
+.OrderList__columnHeader--item {}
+
+.OrderList__columnHeader--student {}
+
+.OrderList__columnHeader--quantity {}
+
+.OrderList__columnHeader--status {
+	border-top-right-radius: 7px;
+}
+
+.OrderList__row {}
+
+.OrderList__td {
+	height: 30px;
+	padding: 5px 10px;
+	text-align: left;
+	border: 1px solid #999;
+}
+
+
+
+
+
+
+
+
+.AddOrder {
+	padding: 32px;
+}
+
+.AddOrder__title {
+	font-size: 24px;
+	line-height: 24px;
+	margin: 0 0 48px;
+}
+
+.AddOrder__form {
+	
+}
+
+.AddOrder__input {
+	@extend .input;
+	width: 100%;
+	margin: 6px 0 24px;
+}
+
+.AddOrder__forgotPassword {
+	margin-left: 5px;
+	color: #777;
+	font-style: italic;
+
+	& > a {
+		color: #777;
+	}
+}
+
+.AddOrder__submit {
+	@include btn(#3395fb);
+	width: 100%;
+	color: white;
+	margin: 16px 0 40px;
+}
+
+.AddOrder__createAccount {
+	color: #3395fb;
+}

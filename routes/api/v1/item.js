@@ -38,13 +38,13 @@ router.get('/items', function(req, res, next) {
         {
           ISBN:
           {
-            $like: req.query.ISBN + "%"
+            $like: req.query.query + "%"
           }
         },
         {
           Name:
           {
-            $like: req.query.Name + "%"
+            $like: req.query.query + "%"
           }
         }
       ]

@@ -20,6 +20,10 @@ function appStore(state, action) {
       return { ...state, isLoading: action.isLoading }
     case 'LOAD_STUDENTS':
       return { ...state, students: action.students }
+    case 'LOAD_ORDERS':
+      return { ...state, orders: action.orders }
+    case 'ADD_ORDER':
+      return { ...state, orders: [...state.orders, action.order] }
     default:
       return state
   }
