@@ -41,9 +41,9 @@ db.item = require('../models/item.js')(sequelize, Sequelize);
 db.student = require('../models/student.js')(sequelize, Sequelize);
 
 db.item.hasMany(db.order, {foreignKey: 'itemId'});
-db.order.belongsTo(db.item, {foreignKey: 'itemId'})
+db.order.belongsTo(db.item, {foreignKey: 'itemId'});
 
-db.student.hasMany(db.order, {foreignKey: 'studentId'})
+db.student.hasMany(db.order, {foreignKey: 'studentId'});
 db.order.belongsTo(db.student, {foreignKey: 'studentId'});
 
 //db.order

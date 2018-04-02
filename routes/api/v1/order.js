@@ -20,12 +20,17 @@ router.post('/add', function(req, res, next) {
 });
 
 router.get('/orders', function(req, res, next) {
-  models.order.findAll({
+  models.student.findAll({
     where: {
       PatronID: req.query.patronid
     },
-    include: [{model: models.student}],
-    include: [{model: models.item}]
+    //include: [{model: models.student}],
+    include: [{
+      model: models.order,
+      include: [{
+        model: models.item
+      }]
+    }]
   }).catch(
     function(error) {
       res.status(401).json({
