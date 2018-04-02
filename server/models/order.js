@@ -4,10 +4,10 @@ var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(sequelize, DataTypes) {
   var Order = sequelize.define('order', {
-    ItemID: { type: DataTypes.INTEGER},
-    StudentID: { type: DataTypes.INTEGER},
+    itemId: { type: DataTypes.INTEGER},
+    studentId: { type: DataTypes.INTEGER},
     Quantity: { type: DataTypes.INTEGER},
-    StatusID: { type: DataTypes.INTEGER},
+    Status: { type: DataTypes.STRING},
     DateOfOrder: { type: DataTypes.DATE},
     PatronID: { type: DataTypes.INTEGER}
   });

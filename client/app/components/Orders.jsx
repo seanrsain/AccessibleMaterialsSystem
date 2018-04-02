@@ -79,12 +79,12 @@ class Orders extends React.Component {
           <div className="ResultItem__description">ISBN: {result.ISBN}</div>
         </div>
         <form className="ResultItem__form">
-          <select className="ResultItem__input ResultItem__input--student" name="StudentID">
+          <select className="ResultItem__input ResultItem__input--student" name="studentId">
             <option value="" disabled selected hidden>Select student</option>
             {Store.getState().students && Store.getState().students.map(this._listStudents.bind(this))}
           </select>
           <input className="ResultItem__input ResultItem__input--quantity" placeholder="Qty" name="Quantity" />
-          <input type="hidden" name="ItemID" value={result.id} />
+          <input type="hidden" name="itemId" value={result.id} />
           <button className="ResultItem__submit" onClick={this._addOrder.bind(this)}>Place Order</button>
         </form>
       </div>
@@ -99,10 +99,10 @@ class Orders extends React.Component {
     return (
       <tr className="OrderList__row">
         <td className="OrderList__td"><input type="checkbox" id={`order_${order.id}`} /></td>
-        <td className="OrderList__td">{order.ItemID}</td>
-        <td className="OrderList__td">{order.StudentID}</td>
+        <td className="OrderList__td">{order.itemId}</td>
+        <td className="OrderList__td">{order.studentId}</td>
         <td className="OrderList__td">{order.Quantity}</td>
-        <td className="OrderList__td">{order.StatusID ? order.StatusID : `Processing`}</td>
+        <td className="OrderList__td">{order.Status ? order.Status : `Processing`}</td>
       </tr>
     );
   }

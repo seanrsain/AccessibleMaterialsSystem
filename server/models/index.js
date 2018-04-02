@@ -35,4 +35,18 @@ Object.keys(db).forEach(function(modelName) {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.user = require('../models/user.js')(sequelize, Sequelize);
+db.order = require('../models/order.js')(sequelize, Sequelize);
+db.item = require('../models/item.js')(sequelize, Sequelize);
+db.student = require('../models/student.js')(sequelize, Sequelize);
+
+db.item.hasMany(db.order, {foreignKey: 'itemId'});
+db.order.belongsTo(db.item, {foreignKey: 'itemId'})
+
+db.student.hasMany(db.order, {foreignKey: 'studentId'})
+db.order.belongsTo(db.student, {foreignKey: 'studentId'});
+
+//db.order
+
+
 module.exports = db;
