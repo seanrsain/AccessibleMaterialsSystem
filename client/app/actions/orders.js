@@ -4,10 +4,3 @@ export const loadOrders = (orders) => {
     orders,
   }
 }
-
-export const addOrder = (order) => {
-  return {
-    type: 'ADD_ORDER',
-    order,
-  }
-}

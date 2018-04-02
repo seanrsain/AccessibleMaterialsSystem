@@ -22,8 +22,6 @@ function appStore(state, action) {
       return { ...state, students: action.students }
     case 'LOAD_ORDERS':
       return { ...state, orders: action.orders }
-    case 'ADD_ORDER':
-      return { ...state, orders: [...state.orders, action.order] }
     default:
       return state
   }

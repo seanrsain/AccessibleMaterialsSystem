@@ -20,28 +20,46 @@ router.post('/add', function(req, res, next) {
 });
 
 router.get('/orders', function(req, res, next) {
-  models.student.findAll({
+  models.order.findAll({
     where: {
-      PatronID: req.query.patronid
+      PatronID: req.query.patronid,
     },
-    //include: [{model: models.student}],
     include: [{
-      model: models.order,
-      include: [{
-        model: models.item
-      }]
-    }]
-  }).catch(
-    function(error) {
-      res.status(401).json({
-        'error': error
-      });
-    }
-  ).done(function(allOrders) {
+      model: models.item
+    },{
+      model: models.student
+    }],
+  }).catch((error) => {
+    res.status(401).json({
+      'error': error
+    });
+  }).done((allOrders) => {
     console.log("All Orders");
     console.log(allOrders);
     res.status(200).json(allOrders);
   });
+  // models.student.findAll({
+  //   where: {
+  //     PatronID: req.query.patronid
+  //   },
+  //   //include: [{model: models.student}],
+  //   include: [{
+  //     model: models.order,
+  //     include: [{
+  //       model: models.item
+  //     }]
+  //   }]
+  // }).catch(
+  //   function(error) {
+  //     res.status(401).json({
+  //       'error': error
+  //     });
+  //   }
+  // ).done(function(allOrders) {
+  //   console.log("All Orders");
+  //   console.log(allOrders);
+  //   res.status(200).json(allOrders);
+  // });
 });
 
 module.exports = router;

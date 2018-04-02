@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import AjaxPromise from 'ajax-promise';
 import Store from '../reducers/store.js';
 import loadingUntil from '../reducers/loading.js';
-import { loadOrders, addOrder } from '../actions/orders.js';
+import { loadOrders } from '../actions/orders.js';
 import Modal from 'react-modal';
 
 class Orders extends React.Component {
@@ -19,6 +19,16 @@ class Orders extends React.Component {
   }
 
   componentDidMount() {
+    this._updateOrders();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      currentList: nextProps.orders,
+    })
+  }
+
+  _updateOrders() {
     console.log(Store.getState().user.id)
     $.get('/api/order/orders', {
       patronid: Store.getState().user.id,
@@ -32,21 +42,15 @@ class Orders extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      currentList: nextProps.orders,
-    })
-  }
-
   _addOrder(evt) {
     evt.preventDefault();
     const form = evt.target.form;
     $.post("api/order/add", $(form).serialize())
       .done((data) => {
         console.log(data);
-        Store.dispatch(addOrder(data));
         alert("Order has been submitted.");
         form.reset();
+        this._updateOrders();
       })
       .fail((data) => {
         console.log("Order error: ", data.responseText);
@@ -56,7 +60,6 @@ class Orders extends React.Component {
 
   _searchItem() {
     const query = $('#item_search')[0].value;
-    console.log(query);
     if(query) {
       $.get("api/item/items", {query})
         .done((data) => {
@@ -95,12 +98,38 @@ class Orders extends React.Component {
     return (<option value={student.id} key={student.id}>{student.Fname} {student.Lname}</option>);
   }
 
+  _searchOrder() {
+    const query = $('#order_search')[0].value.toUpperCase();
+    if(query) {
+      let orders = Store.getState().orders.filter((order) => {
+        if(order.item.Name.toUpperCase().indexOf(query) > -1) {
+          return true;
+        } else if(order.item.ISBN.toUpperCase().indexOf(query) > -1) {
+          return true;
+        } else if(order.student.Fname.toUpperCase().indexOf(query) > -1) {
+          return true;
+        } else if(order.student.Mname.toUpperCase().indexOf(query) > -1) {
+          return true;
+        } else if(order.student.Lname.toUpperCase().indexOf(query) > -1) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      console.log(orders)
+      this.setState({ currentList: orders, })
+    } else {
+      this.setState({ currentList: Store.getState().orders, })
+    }
+  }
+
   _renderOrder(order) {
+    console.log(order)
     return (
       <tr className="OrderList__row">
         <td className="OrderList__td"><input type="checkbox" id={`order_${order.id}`} /></td>
-        <td className="OrderList__td">{order.itemId}</td>
-        <td className="OrderList__td">{order.studentId}</td>
+        <td className="OrderList__td">{order.item.Name}</td>
+        <td className="OrderList__td">{order.student.Fname} {order.student.Lname}</td>
         <td className="OrderList__td">{order.Quantity}</td>
         <td className="OrderList__td">{order.Status ? order.Status : `Processing`}</td>
       </tr>
@@ -124,7 +153,7 @@ class Orders extends React.Component {
           <div className="OrderList__header">
             <div className="OrderList__title">Active Orders</div>
             <div className="OrderList__actions">
-              <input type="search" className="OrderList__search" placeholder="Search for order..." />
+              <input type="search" id="order_search" className="OrderList__search" placeholder="Search for order..." onChange={this._searchOrder.bind(this)} />
               <button className="OrderList__button">Reassign</button>
               <button className="OrderList__button">Cancel</button>
             </div>
