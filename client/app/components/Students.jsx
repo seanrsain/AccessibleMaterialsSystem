@@ -19,6 +19,16 @@ class Students extends React.Component {
   }
 
   componentDidMount() {
+    this._updateStudents();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      currentList: nextProps.students,
+    })
+  }
+
+  _updateStudents() {
     $.get('/api/student/students', {
       patronid: Store.getState().user.id,
     })
@@ -31,15 +41,9 @@ class Students extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      currentList: nextProps.students,
-    })
-  }
-
   _renderUser(user) {
     return (
-      <tr className="StudentList__row">
+      <tr className="StudentList__row" key={user.id}>
         <td className="StudentList__td"><input type="checkbox" id={`student_${user.id}`} /></td>
         <td className="StudentList__td">{`${user.Fname} ${user.Lname}`}</td>
         <td className="StudentList__td">{`Atlanta Public Schools`}</td>
@@ -50,7 +54,6 @@ class Students extends React.Component {
   }
 
   _viewAddStudent() {
-    console.log(this)
     this.setState({ addStudentVisible: true, });
   }
 
@@ -65,10 +68,31 @@ class Students extends React.Component {
       .done((data) => {
         console.log(data);
         this.setState({ addStudentVisible: false, });
+        this._updateStudents();
       })
       .fail((data) => {
         console.log("Login error: ", data.responseText);
       });
+  }
+
+  _searchStudent() {
+    const query = $('#student_search')[0].value.toUpperCase();
+    if(query) {
+      let students = Store.getState().students.filter((student) => {
+        if(student.Fname.toUpperCase().indexOf(query) > -1) {
+          return true;
+        } else if(student.Mname.toUpperCase().indexOf(query) > -1) {
+          return true;
+        } else if(student.Lname.toUpperCase().indexOf(query) > -1) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      this.setState({ currentList: students, })
+    } else {
+      this.setState({ currentList: Store.getState().students, })
+    }
   }
 
   render() {
@@ -79,7 +103,7 @@ class Students extends React.Component {
           <div className="StudentList__header">
             <div className="StudentList__title">Student List</div>
             <div className="StudentList__actions">
-              <input type="search" className="StudentList__search" placeholder="Search for student..." />
+              <input type="search" id="student_search" className="StudentList__search" placeholder="Search for student..." onChange={this._searchStudent.bind(this)} />
               <button className="StudentList__button" onClick={this._viewAddStudent.bind(this)}>+ Add</button>
               <button className="StudentList__button">Deactivate</button>
             </div>
@@ -93,7 +117,11 @@ class Students extends React.Component {
               <th className="StudentList__columnHeader StudentList__columnHeader--status">Status</th>
             </thead>
             <tbody>
-              {this.state.currentList && this.state.currentList.map(this._renderUser)}
+              {this.state.currentList && this.state.currentList.length > 0 ? this.state.currentList.map(this._renderUser) : (
+                <tr className="StudentList__row">
+                  <td colSpan={5} className="StudentList__td">No students found.</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

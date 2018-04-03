@@ -116,7 +116,6 @@ class Orders extends React.Component {
           return false;
         }
       });
-      console.log(orders)
       this.setState({ currentList: orders, })
     } else {
       this.setState({ currentList: Store.getState().orders, })
@@ -124,7 +123,6 @@ class Orders extends React.Component {
   }
 
   _renderOrder(order) {
-    console.log(order)
     return (
       <tr className="OrderList__row">
         <td className="OrderList__td"><input type="checkbox" id={`order_${order.id}`} /></td>
@@ -167,7 +165,11 @@ class Orders extends React.Component {
               <th className="OrderList__columnHeader OrderList__columnHeader--status">Status</th>
             </thead>
             <tbody>
-              {this.state.currentList && this.state.currentList.map(this._renderOrder.bind(this))}
+              {this.state.currentList && this.state.currentList.length > 0 ? this.state.currentList.map(this._renderOrder.bind(this)) : (
+                <tr className="OrderList__row">
+                  <td colSpan={5} className="OrderList__td">No orders found.</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
