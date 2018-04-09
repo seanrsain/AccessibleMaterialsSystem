@@ -238,7 +238,7 @@ class Students extends React.Component {
 
               <label htmlFor="WrittenPlanTypeID">Type of Written Plan</label>
               <select name="WrittenPlanTypeID" className="AddStudent__input">
-                <option value={1}>EP</option>
+                <option value={1}>IEP</option>
                 <option value={2}>504</option>
                 <option value={3}>IFSP</option>
                 <option value={4}>Home School Curriculum</option>
