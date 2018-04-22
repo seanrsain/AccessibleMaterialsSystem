@@ -23,6 +23,7 @@ BUG FIXES
 KNOWN BUGS
 
 * Language for adding students only accepts numbers
+* Select all students button does not select any students
 
 **Install Guide Accessible Materials System 1.0**
 
