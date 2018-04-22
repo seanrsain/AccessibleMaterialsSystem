@@ -41,15 +41,15 @@ DOWNLOAD
 
 BUILD
 
-* Run **npm install ** in the root directory of the project to install all required dependencies for the project
+* Run **npm install** in the root directory of the project to install all required dependencies for the project
 
 INSTALLATION
 
-* Run **npm start ** in the same directory to start the server
+* Run **npm start** in the same directory to start the server
 
 RUNNING APPLICATION
 
-* Go to **localhost:5000 ** on your browser
+* Go to **localhost:5000** on your browser
 
 TROUBLESHOOTING
 
