@@ -55,8 +55,6 @@ router.get('/students', function(req, res, next) {
 
 router.put('/changeStatus', function(req, res, next) {
   req.body.StudentID = parseInt(req.body.StudentID);
-  req.body.Status = parseInt(req.body.Status);
-  console.log(req.body)
   models.student.find({
     where: {
       id: req.body.StudentID

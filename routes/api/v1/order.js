@@ -60,4 +60,24 @@ router.get('/orders', function(req, res, next) {
   // });
 });
 
+router.put('/reassign', function(req, res, next) {
+  req.body.OrderID = parseInt(req.body.OrderID);
+  req.body.StudentID = parseInt(req.body.StudentID);
+  models.order.find({
+    where: {
+      id: req.body.OrderID
+    }
+  }).done(function(record) {
+    if (record) {
+      record.updateAttributes({
+        studentId: req.body.StudentID
+      }).done(function() {
+        res.status(200).json({
+          'message': 'Student changed for order'
+        });
+      });
+    }
+  });
+});
+
 module.exports = router;
