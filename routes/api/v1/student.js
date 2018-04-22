@@ -24,6 +24,8 @@ router.post('/register', function(req, res, next) {
   req.body.DOB = new Date(req.body.DOB);
   req.body.DateWrittenPlan = new Date(req.body.DateWrittenPlan);
   req.body.DateLatestEyeExam = new Date(req.body.DateLatestEyeExam);
+  req.body.Status = 0;
+  console.log(req.body);
   models.student.create(req.body).catch(
     function(error) {
       res.status(401).json({
@@ -48,6 +50,28 @@ router.get('/students', function(req, res, next) {
     }
   ).done(function(allStudents) {
     res.status(200).json(allStudents);
+  });
+});
+
+router.put('/changeStatus', function(req, res, next) {
+  req.body.StudentID = parseInt(req.body.StudentID);
+  req.body.Status = parseInt(req.body.Status);
+  console.log(req.body)
+  models.student.find({
+    where: {
+      id: req.body.StudentID
+    }
+  }).done(function(record) {
+    console.log(record);
+    if (record) {
+      record.updateAttributes({
+        Status: req.body.Status
+      }).done(function() {
+        res.status(200).json({
+          'message': 'Student status changed'
+        });
+      });
+    }
   });
 });
 

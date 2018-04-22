@@ -34,8 +34,6 @@ router.get('/orders', function(req, res, next) {
       'error': error
     });
   }).done((allOrders) => {
-    console.log("All Orders");
-    console.log(allOrders);
     res.status(200).json(allOrders);
   });
   // models.student.findAll({
