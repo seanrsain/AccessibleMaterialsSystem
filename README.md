@@ -1,8 +1,6 @@
-**Customer Delivery Documentation**
-
-Team JIC 7324
-
 Accessibility Materials System
+
+Junior Implementation
 
 **Release Notes version Accessible Materials System 1.0**
 
