@@ -7,6 +7,6 @@
 }
 
 .Home__logout {
-	@include btn(#3395fb);
+	@include btn($orange);
 	color: white;
 }

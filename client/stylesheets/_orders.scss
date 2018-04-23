@@ -83,7 +83,7 @@
 }
 
 .ResultItem__submit {
-	@include btn(#3395fb);
+	@include btn($orange);
 	flex: 0 0 auto;
 	color: white;
 	margin: 0 0 0 15px;
@@ -115,7 +115,7 @@
 }
 
 .OrderList__button {
-	@include btn(#3395fb);
+	@include btn($orange);
 	flex: 0 0 auto;
 	color: white;
 	margin: 0 0 0 10px;
@@ -188,7 +188,7 @@
 }
 
 .ReassignItem__submit {
-	@include btn(#3395fb);
+	@include btn($orange);
 	width: 100%;
 	color: white;
 	margin: 16px 0 40px;

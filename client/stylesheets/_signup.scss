@@ -29,12 +29,12 @@
 }
 
 .Signup__submit {
-	@include btn(#3395fb);
+	@include btn($orange);
 	width: 100%;
 	color: white;
 	margin: 16px 0 40px;
 }
 
 .Signup__createAccount {
-	color: #3395fb;
+	color: $orange;
 }
