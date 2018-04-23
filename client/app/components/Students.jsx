@@ -6,6 +6,7 @@ import Store from '../reducers/store.js';
 import loadingUntil from '../reducers/loading.js';
 import { loadStudents } from '../actions/students.js';
 import Modal from 'react-modal';
+import * as translate from '../lib/Translate.js'
 
 class Students extends React.Component {
 
@@ -15,6 +16,8 @@ class Students extends React.Component {
     this.state = {
       addStudentVisible: false,
       currentList: Store.getState().students,
+      showReactivate: false,
+      showDeactivate: false,
     };
   }
 
@@ -33,24 +36,12 @@ class Students extends React.Component {
       patronid: Store.getState().user.id,
     })
     .done((response) => {
-      console.log("load students", response);
+      // console.log("load students", response);
       Store.dispatch(loadStudents(response));
     })
     .fail((err) => {
       console.log("/api/user/index error", err);
     });
-  }
-
-  _renderUser(user) {
-    return (
-      <tr className="StudentList__row" key={user.id}>
-        <td className="StudentList__td"><input type="checkbox" id={`student_${user.id}`} /></td>
-        <td className="StudentList__td">{`${user.Fname} ${user.Lname}`}</td>
-        <td className="StudentList__td">{`Atlanta Public Schools`}</td>
-        <td className="StudentList__td">{`Blind (MDB)`}</td>
-        <td className="StudentList__td">{user.DisabilityTypeCert ? `Active` : `Approval Pending`}</td>
-      </tr>
-    );
   }
 
   _viewAddStudent() {
@@ -95,6 +86,97 @@ class Students extends React.Component {
     }
   }
 
+  _toggleSelectAll(evt) {
+    if(evt.target.checked) {
+      document.getElementsByName("student_select").forEach((item) => item.checked = true);
+    } else {
+      document.getElementsByName("student_select").forEach((item) => item.checked = false);
+    }
+    this._checkSelectedStudentStatus();
+  }
+
+  _onCheckboxToggle(evt) {
+    if(!evt.target.checked) {
+      document.getElementById("student_all").checked = false;
+    }
+    this._checkSelectedStudentStatus();
+  }
+
+  _checkSelectedStudentStatus() {
+    let showReactivate = false;
+    let showDeactivate = false;
+    document.getElementsByName("student_select").forEach((item) => {
+      if(item.checked) {
+        let student = this.state.currentList.find((elem) => parseInt(item.value) === parseInt(elem.id))
+        if(student.Status && parseInt(student.Status) === 1) showDeactivate = true;
+        if(student.Status && parseInt(student.Status) === 2) showReactivate = true;
+      }
+    });
+    this.setState({ showReactivate, showDeactivate });
+  }
+
+  _reactivateStudent() {
+    document.getElementsByName("student_select").forEach((item) => {
+      if(item.checked) {
+        let student = this.state.currentList.find((elem) => parseInt(item.value) === parseInt(elem.id))
+        if(student.Status && parseInt(student.Status) === 2) {
+          $.ajax({
+            method: 'PUT',
+            url: 'api/student/changeStatus',
+            data: {
+              StudentID: student.id,
+              Status: 1,
+            }
+          })
+          .done((data) => {
+            this._checkSelectedStudentStatus();
+            this._updateStudents();
+          })
+          .fail((data) => {
+            console.log("Student reactivate error: ", data.responseText);
+          });
+        }
+      }
+    });
+  }
+
+  _deactivateStudent() {
+    document.getElementsByName("student_select").forEach((item) => {
+      if(item.checked) {
+        let student = this.state.currentList.find((elem) => parseInt(item.value) === parseInt(elem.id))
+        if(student.Status && parseInt(student.Status) === 1) {
+          $.ajax({
+            method: 'PUT',
+            url: 'api/student/changeStatus',
+            data: {
+              StudentID: student.id,
+              Status: 2,
+            }
+          })
+          .done((data) => {
+            this._checkSelectedStudentStatus();
+            this._updateStudents();
+          })
+          .fail((data) => {
+            console.log("Student deactivate error: ", data.responseText);
+          });
+        }
+      }
+    });
+  }
+
+  _renderStudent(student) {
+    return (
+      <tr className="StudentList__row" key={student.id}>
+        <td className="StudentList__td"><input type="checkbox" name="student_select" value={student.id} id={`student_${student.id}`} onChange={this._onCheckboxToggle.bind(this)} /></td>
+        <td className="StudentList__td">{`${student.Fname} ${student.Lname}`}</td>
+        <td className="StudentList__td">{translate.district(student.DistrictID)}</td>
+        <td className="StudentList__td">{translate.disability(student.DisabilityTypeCert)}</td>
+        <td className="StudentList__td">{translate.studentStatus(student.Status)}</td>
+      </tr>
+    );
+  }
+
   render() {
     return (
       <div className="Students">
@@ -105,19 +187,26 @@ class Students extends React.Component {
             <div className="StudentList__actions">
               <input type="search" id="student_search" className="StudentList__search" placeholder="Search for student..." onChange={this._searchStudent.bind(this)} />
               <button className="StudentList__button" onClick={this._viewAddStudent.bind(this)}>+ Add</button>
-              <button className="StudentList__button">Deactivate</button>
+              {this.state.showReactivate && (
+                <button className="StudentList__button" onClick={this._reactivateStudent.bind(this)}>Reactivate</button>
+              )}
+              {this.state.showDeactivate && (
+                <button className="StudentList__button" onClick={this._deactivateStudent.bind(this)}>Deactivate</button>
+              )}
             </div>
           </div>
           <table className="StudentList__table">
             <thead>
-              <th className="StudentList__columnHeader StudentList__columnHeader--checkbox"><input type="checkbox" id="student_all" /></th>
-              <th className="StudentList__columnHeader StudentList__columnHeader--name">Name</th>
-              <th className="StudentList__columnHeader StudentList__columnHeader--school">School Code</th>
-              <th className="StudentList__columnHeader StudentList__columnHeader--disability">Disability Code</th>
-              <th className="StudentList__columnHeader StudentList__columnHeader--status">Status</th>
+              <tr>
+                <th className="StudentList__columnHeader StudentList__columnHeader--checkbox"><input type="checkbox" name="select_all_students" onChange={this._toggleSelectAll.bind(this)} id="student_all" /></th>
+                <th className="StudentList__columnHeader StudentList__columnHeader--name">Name</th>
+                <th className="StudentList__columnHeader StudentList__columnHeader--school">School District</th>
+                <th className="StudentList__columnHeader StudentList__columnHeader--disability">Disability</th>
+                <th className="StudentList__columnHeader StudentList__columnHeader--status">Status</th>
+              </tr>
             </thead>
             <tbody>
-              {this.state.currentList && this.state.currentList.length > 0 ? this.state.currentList.map(this._renderUser) : (
+              {this.state.currentList && this.state.currentList.length > 0 ? this.state.currentList.map(this._renderStudent.bind(this)) : (
                 <tr className="StudentList__row">
                   <td colSpan={5} className="StudentList__td">No students found.</td>
                 </tr>
@@ -130,6 +219,7 @@ class Students extends React.Component {
           onRequestClose={this._closeAddStudent.bind(this)}
           closeTimeoutMS={100}
           style={{}}
+          ariaHideApp={false}
           contentLabel="Modal"
         >
           <div className="AddStudent">
@@ -138,42 +228,42 @@ class Students extends React.Component {
 
               <label htmlFor="DisabilityTypeCert">Certification Type</label>
               <select name="DisabilityTypeCert" className="AddStudent__input">
-                <option value={1}>Blind (MDB)</option>
-                <option value={2}>Blind (FDB)</option>
-                <option value={3}>Visually Impaired</option>
-                <option value={4}>Physically Disabled</option>
-                <option value={5}>Learning Disability (organic)</option>
+                <option value={0}>Blind (MDB)</option>
+                <option value={1}>Blind (FDB)</option>
+                <option value={2}>Visually Impaired</option>
+                <option value={3}>Physically Disabled</option>
+                <option value={4}>Learning Disability (organic)</option>
               </select>
 
               <label htmlFor="DistrictID">School District</label>
               <select name="DistrictID" className="AddStudent__input">
-                <option value={1}>Atlanta Public Schools</option>
-                <option value={2}>Brantley School District</option>
-                <option value={3}>Effingham School District</option>
-                <option value={4}>Fannin School District</option>
-                <option value={5}>Elbert School District</option>
+                <option value={0}>Atlanta Public Schools</option>
+                <option value={1}>Brantley School District</option>
+                <option value={2}>Effingham School District</option>
+                <option value={3}>Fannin School District</option>
+                <option value={4}>Elbert School District</option>
               </select>
 
               <label htmlFor="CountyID">County</label>
               <select name="CountyID" className="AddStudent__input">
-                <option value={1}>Fulton</option>
-                <option value={2}>Atkinson</option>
-                <option value={3}>Baldwin</option>
-                <option value={4}>Cherokee</option>
-                <option value={5}>Dade</option>
+                <option value={0}>Fulton</option>
+                <option value={1}>Atkinson</option>
+                <option value={2}>Baldwin</option>
+                <option value={3}>Cherokee</option>
+                <option value={4}>Dade</option>
               </select>
 
               <label htmlFor="EducationFacilityTypeID">Facility</label>
               <select name="EducationFacilityTypeID" className="AddStudent__input">
-                <option value={1}>Public School</option>
-                <option value={2}>Private (LEA Placed)</option>
-                <option value={3}>Private (Proportionate Share VI)</option>
-                <option value={4}>Private (Parentally Placed)</option>
-                <option value={5}>Dept of Juvenile Justice</option>
-                <option value={6}>Dept of Corrections</option>
-                <option value={7}>State School</option>
-                <option value={8}>Home School</option>
-                <option value={9}>Other</option>
+                <option value={0}>Public School</option>
+                <option value={1}>Private (LEA Placed)</option>
+                <option value={2}>Private (Proportionate Share VI)</option>
+                <option value={3}>Private (Parentally Placed)</option>
+                <option value={4}>Dept of Juvenile Justice</option>
+                <option value={5}>Dept of Corrections</option>
+                <option value={6}>State School</option>
+                <option value={7}>Home School</option>
+                <option value={8}>Other</option>
               </select>
 
               <label htmlFor="GaTestingID">GTID</label>
@@ -193,58 +283,62 @@ class Students extends React.Component {
 
               <label htmlFor="GradeID">Grade</label>
               <select name="GradeID" className="AddStudent__input">
-                <option value={1}>Early Intervention (&lt;3 y/o) = IP</option>
-                <option value={2}>PreK (3-4 y/o) = PS</option>
-                <option value={3}>1</option>
-                <option value={4}>2</option>
-                <option value={5}>3</option>
-                <option value={6}>4</option>
-                <option value={7}>5</option>
-                <option value={8}>6</option>
-                <option value={9}>7</option>
-                <option value={10}>8</option>
-                <option value={11}>9</option>
-                <option value={12}>10</option>
-                <option value={13}>11</option>
-                <option value={14}>12</option>
-                <option value={15}>Access Curriculum = FC</option>
-                <option value={16}>Academic (non-graded = AN</option>
+                <option value={0}>Early Intervention (&lt;3 y/o) = IP</option>
+                <option value={1}>PreK (3-4 y/o) = PS</option>
+                <option value={2}>1</option>
+                <option value={3}>2</option>
+                <option value={4}>3</option>
+                <option value={5}>4</option>
+                <option value={6}>5</option>
+                <option value={7}>6</option>
+                <option value={8}>7</option>
+                <option value={9}>8</option>
+                <option value={10}>9</option>
+                <option value={11}>10</option>
+                <option value={12}>11</option>
+                <option value={13}>12</option>
+                <option value={14}>Access Curriculum = FC</option>
+                <option value={15}>Academic (non-graded = AN</option>
               </select>
 
               <label htmlFor="LanguageID">Language of Instruction</label>
-              <input type="number" name="LanguageID" className="AddStudent__input" />
+              <select name="LanguageID" className="AddStudent__input">
+                <option value={0}>English</option>
+                <option value={1}>Spanish</option>
+                <option value={2}>French</option>
+              </select>
 
               <label htmlFor="DateLatestEyeExam">Date of eye report or other print disability certification (<a href="http://www.gadoe.org/Curriculum-Instruction-and-Assessment/Special-Education-Services/GIMC/Documents/Educators/Certification%20to%20receive%20AIM%20eligibility.pdf">http://www.gadoe.org/Curriculum-Instruction-and-Assessment/Special-Education-Services/GIMC/Documents/Educators/Certification%20to%20receive%20AIM%20eligibility.pdf</a>)</label>
               <input type="date" name="DateLatestEyeExam" className="AddStudent__input" />
 
               <label htmlFor="CertExamTypeID">Certification Authority</label>
               <select name="CertExamTypeID" className="AddStudent__input">
-                <option value={1}>special education teacher</option>
-                <option value={2}>learning disability, dyslexia, or resource specialist</option>
-                <option value={3}>school psychologist</option>
-                <option value={4}>clinical psychologist with a background in learning disabilities</option>
-                <option value={5}>family doctor</option>
-                <option value={6}>psychiatrist</option>
-                <option value={7}>neurologist</option>
-                <option value={8}>teacher of the visually impaired</option>
-                <option value={9}>family doctor</option>
-                <option value={10}>ophthalmologist</option>
-                <option value={11}>optometrist</option>
-                <option value={12}>National Library Service for the Blind and Physically Handicapped, or similar government body outside the U.S.</option>
-                <option value={13}>resource specialist</option>
-                <option value={14}>physical therapist</option>
-                <option value={15}>family doctor or other medical professional</option>
+                <option value={0}>special education teacher</option>
+                <option value={1}>learning disability, dyslexia, or resource specialist</option>
+                <option value={2}>school psychologist</option>
+                <option value={3}>clinical psychologist with a background in learning disabilities</option>
+                <option value={4}>family doctor</option>
+                <option value={5}>psychiatrist</option>
+                <option value={6}>neurologist</option>
+                <option value={7}>teacher of the visually impaired</option>
+                <option value={8}>family doctor</option>
+                <option value={9}>ophthalmologist</option>
+                <option value={10}>optometrist</option>
+                <option value={11}>National Library Service for the Blind and Physically Handicapped, or similar government body outside the U.S.</option>
+                <option value={12}>resource specialist</option>
+                <option value={13}>physical therapist</option>
+                <option value={14}>family doctor or other medical professional</option>
               </select>
 
               <label htmlFor="WrittenPlanTypeID">Type of Written Plan</label>
               <select name="WrittenPlanTypeID" className="AddStudent__input">
-                <option value={1}>IEP</option>
-                <option value={2}>504</option>
-                <option value={3}>IFSP</option>
-                <option value={4}>Home School Curriculum</option>
-                <option value={5}>Private School Curriculum</option>
-                <option value={6}>District/State</option>
-                <option value={7}>Charter School</option>
+                <option value={0}>IEP</option>
+                <option value={1}>504</option>
+                <option value={2}>IFSP</option>
+                <option value={3}>Home School Curriculum</option>
+                <option value={4}>Private School Curriculum</option>
+                <option value={5}>District/State</option>
+                <option value={6}>Charter School</option>
               </select>
 
               <label htmlFor="DateWrittenPlan">Date of Written Plan (IEP, 504, or IFSP only)</label>
@@ -252,31 +346,31 @@ class Students extends React.Component {
 
               <label htmlFor="PrimaryReadingMediumTypeID">Primary Reading Media</label>
               <select name="PrimaryReadingMediumTypeID" className="AddStudent__input">
-                <option value={1}>Braille = B</option>
-                <option value={2}>Visual (Digital/Large Print) = V</option>
-                <option value={3}>Auditory (TTS or Recorded) = A</option>
-                <option value={4}>PreReader = PRE</option>
-                <option value={5}>Non-Reader SNR</option>
+                <option value={0}>Braille = B</option>
+                <option value={1}>Visual (Digital/Large Print) = V</option>
+                <option value={2}>Auditory (TTS or Recorded) = A</option>
+                <option value={3}>PreReader = PRE</option>
+                <option value={4}>Non-Reader SNR</option>
               </select>
 
               <label htmlFor="Secondary1ReadingMediumTypeID">Secondary Reading Media</label>
               <select name="Secondary1ReadingMediumTypeID" className="AddStudent__input">
-                <option value={1}>Braille = B</option>
-                <option value={2}>Visual (Digital/Large Print) = V</option>
-                <option value={3}>Auditory (TTS or Recorded) = A</option>
-                <option value={4}>PreReader = PRE</option>
-                <option value={5}>Non-Reader SNR</option>
-                <option value={6}>N/A = N/A</option>
+                <option value={0}>Braille = B</option>
+                <option value={1}>Visual (Digital/Large Print) = V</option>
+                <option value={2}>Auditory (TTS or Recorded) = A</option>
+                <option value={3}>PreReader = PRE</option>
+                <option value={4}>Non-Reader SNR</option>
+                <option value={5}>N/A = N/A</option>
               </select>
 
               <label htmlFor="Secondary2ReadingMediumTypeID">Other Reading Media</label>
               <select name="Secondary2ReadingMediumTypeID" className="AddStudent__input">
-                <option value={1}>Braille = B</option>
-                <option value={2}>Visual (Digital/Large Print) = V</option>
-                <option value={3}>Auditory (TTS or Recorded) = A</option>
-                <option value={4}>PreReader = PRE</option>
-                <option value={5}>Non-Reader SNR</option>
-                <option value={6}>N/A = N/A</option>
+                <option value={0}>Braille = B</option>
+                <option value={1}>Visual (Digital/Large Print) = V</option>
+                <option value={2}>Auditory (TTS or Recorded) = A</option>
+                <option value={3}>PreReader = PRE</option>
+                <option value={4}>Non-Reader SNR</option>
+                <option value={5}>N/A = N/A</option>
               </select>
 
               <label htmlFor="NeedIMaterialsCert">The need for accessible educational materials is documented in the students written plan (IEP, 504, or IFSP only)</label><br />

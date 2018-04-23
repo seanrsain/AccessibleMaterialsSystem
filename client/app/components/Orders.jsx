@@ -6,6 +6,7 @@ import Store from '../reducers/store.js';
 import loadingUntil from '../reducers/loading.js';
 import { loadOrders } from '../actions/orders.js';
 import Modal from 'react-modal';
+import * as translate from '../lib/Translate.js'
 
 class Orders extends React.Component {
 
@@ -14,7 +15,8 @@ class Orders extends React.Component {
 
     this.state = {
       currentList: Store.getState().orders,
-      searchResults: []
+      reassignOrdersVisible: false,
+      searchResults: [],
     };
   }
 
@@ -29,12 +31,11 @@ class Orders extends React.Component {
   }
 
   _updateOrders() {
-    console.log(Store.getState().user.id)
     $.get('/api/order/orders', {
       patronid: Store.getState().user.id,
     })
     .done((response) => {
-      console.log("load orders", response);
+      // console.log("load orders", response);
       Store.dispatch(loadOrders(response));
     })
     .fail((err) => {
@@ -122,14 +123,82 @@ class Orders extends React.Component {
     }
   }
 
+  _toggleSelectAll(evt) {
+    if(evt.target.checked) {
+      document.getElementsByName("order_select").forEach((item) => item.checked = true);
+    } else {
+      document.getElementsByName("order_select").forEach((item) => item.checked = false);
+    }
+  }
+
+  _onCheckboxToggle(evt) {
+    if(!evt.target.checked) {
+      document.getElementById("order_all").checked = false;
+    }
+  }
+
+  _showReassignOrders() {
+    this.setState({ reassignOrdersVisible: true, });
+  }
+
+  _closeReassignOrders() {
+    this.setState({ reassignOrdersVisible: false, });
+  }
+
+  _reassignOrders(evt) {
+    evt.preventDefault();
+
+    let newAssignee = $("select[name='NewAssignee']").val()
+    document.getElementsByName("order_select").forEach((item) => {
+      if(item.checked) {
+        $.ajax({
+          method: 'PUT',
+          url: 'api/order/reassign',
+          data: {
+            OrderID: item.value,
+            StudentID: newAssignee,
+          }
+        })
+        .done((data) => {
+          this._updateOrders();
+        })
+        .fail((data) => {
+          console.log("Order reassign error: ", data.responseText);
+        });
+      }
+    });
+    $("form#reassign-item-form")[0].reset();
+    this.setState({ reassignOrdersVisible: false, });
+  }
+
+  _cancelOrders(evt) {
+    document.getElementsByName("order_select").forEach((item) => {
+      if(item.checked) {
+        $.ajax({
+          method: 'PUT',
+          url: 'api/order/cancel',
+          data: {
+            OrderID: item.value,
+          }
+        })
+        .done((data) => {
+          this._updateOrders();
+        })
+        .fail((data) => {
+          console.log("Order reassign error: ", data.responseText);
+        });
+      }
+    });
+  }
+
   _renderOrder(order) {
     return (
-      <tr className="OrderList__row">
-        <td className="OrderList__td"><input type="checkbox" id={`order_${order.id}`} /></td>
+      <tr className="OrderList__row" key={order.id}>
+        <td className="OrderList__td"><input type="checkbox" name="order_select" value={order.id} id={`order_${order.id}`} onChange={this._onCheckboxToggle.bind(this)} /></td>
         <td className="OrderList__td">{order.item.Name}</td>
         <td className="OrderList__td">{order.student.Fname} {order.student.Lname}</td>
         <td className="OrderList__td">{order.Quantity}</td>
-        <td className="OrderList__td">{order.Status ? order.Status : `Processing`}</td>
+        <td className="OrderList__td">{translate.orderStatus(order.Status)}</td>
       </tr>
     );
   }
@@ -152,17 +221,19 @@ class Orders extends React.Component {
             <div className="OrderList__title">Active Orders</div>
             <div className="OrderList__actions">
               <input type="search" id="order_search" className="OrderList__search" placeholder="Search for order..." onChange={this._searchOrder.bind(this)} />
-              <button className="OrderList__button">Reassign</button>
-              <button className="OrderList__button">Cancel</button>
+              <button className="OrderList__button" onClick={this._showReassignOrders.bind(this)}>Reassign</button>
+              <button className="OrderList__button" onClick={this._cancelOrders.bind(this)}>Cancel</button>
             </div>
           </div>
           <table className="OrderList__table">
             <thead>
-              <th className="OrderList__columnHeader OrderList__columnHeader--checkbox"><input type="checkbox" id="student_all" /></th>
-              <th className="OrderList__columnHeader OrderList__columnHeader--item">Item</th>
-              <th className="OrderList__columnHeader OrderList__columnHeader--student">Student</th>
-              <th className="OrderList__columnHeader OrderList__columnHeader--quantity">Quantity</th>
-              <th className="OrderList__columnHeader OrderList__columnHeader--status">Status</th>
+              <tr>
+                <th className="OrderList__columnHeader OrderList__columnHeader--checkbox"><input type="checkbox" name="select_all_orders" onChange={this._toggleSelectAll.bind(this)} id="order_all" /></th>
+                <th className="OrderList__columnHeader OrderList__columnHeader--item">Item</th>
+                <th className="OrderList__columnHeader OrderList__columnHeader--student">Student</th>
+                <th className="OrderList__columnHeader OrderList__columnHeader--quantity">Quantity</th>
+                <th className="OrderList__columnHeader OrderList__columnHeader--status">Status</th>
+              </tr>
             </thead>
             <tbody>
               {this.state.currentList && this.state.currentList.length > 0 ? this.state.currentList.map(this._renderOrder.bind(this)) : (
@@ -173,6 +244,30 @@ class Orders extends React.Component {
             </tbody>
           </table>
         </div>
+        <Modal
+          isOpen={this.state.reassignOrdersVisible}
+          onRequestClose={this._closeReassignOrders.bind(this)}
+          closeTimeoutMS={100}
+          style={{}}
+          ariaHideApp={false}
+          contentLabel="Modal"
+        >
+          <div className="ReassignItem">
+            <h3 className="ReassignItem__title">Reassign Item</h3>
+            <form id="reassign-item-form" className="ReassignItem__form" onSubmit={this._reassignOrders.bind(this)}>
+
+              <p>Please select a new student assignee.</p>
+
+              <label htmlFor="NewAssignee">New Assignee</label>
+              <select name="NewAssignee" className="ReassignItem__input">
+                <option value="" disabled selected hidden>Select student</option>
+                {Store.getState().students && Store.getState().students.map(this._listStudents.bind(this))}
+              </select>
+
+              <button type="submit" className="ReassignItem__submit">Add Student</button>
+            </form>
+          </div>
+        </Modal>
       </div>
     );
   }
