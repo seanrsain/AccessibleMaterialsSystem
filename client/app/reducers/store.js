@@ -1,5 +1,8 @@
 import { createStore } from 'redux';
 import { browserHistory } from 'react-router';
+import { loadState } from '../lib/LocalStorage.js';
+
+const persistedState = loadState();
 
 function appStore(state, action) {
   if (typeof state === 'undefined') {
@@ -27,4 +30,4 @@ function appStore(state, action) {
   }
 }
 
-module.exports = createStore(appStore);
+module.exports = createStore(appStore, persistedState);

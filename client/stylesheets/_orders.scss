@@ -167,43 +167,29 @@
 
 
 
-.AddOrder {
+.ReassignItem {
 	padding: 32px;
 }
 
-.AddOrder__title {
+.ReassignItem__title {
 	font-size: 24px;
 	line-height: 24px;
 	margin: 0 0 48px;
 }
 
-.AddOrder__form {
+.ReassignItem__form {
 	
 }
 
-.AddOrder__input {
+.ReassignItem__input {
 	@extend .input;
 	width: 100%;
 	margin: 6px 0 24px;
 }
 
-.AddOrder__forgotPassword {
-	margin-left: 5px;
-	color: #777;
-	font-style: italic;
-
-	& > a {
-		color: #777;
-	}
-}
-
-.AddOrder__submit {
+.ReassignItem__submit {
 	@include btn(#3395fb);
 	width: 100%;
 	color: white;
 	margin: 16px 0 40px;
-}
-
-.AddOrder__createAccount {
-	color: #3395fb;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Router, IndexRoute, browserHistory } from 'react-router';
+import { saveState } from './lib/LocalStorage.js';
 import App from './components/App.jsx';
 import Container from './components/Container.jsx';
 import Splash from './components/Splash.jsx';
@@ -19,7 +20,7 @@ function redirectIfSignedIn(){
   if(state.user){
     browserHistory.replace('/');
   } else {
-    console.log("User is not present");
+    // console.log("User is not present");
   }
 }
 
@@ -28,7 +29,7 @@ function redirectUnlessSignedIn(){
   if(state.isLoading) return;
 
   if(state.user){
-    console.log("User is present");
+    // console.log("User is present");
   } else {
     browserHistory.replace('/login');
   }
@@ -36,9 +37,15 @@ function redirectUnlessSignedIn(){
 
 Store.subscribe(refresh);
 function refresh() {
-  console.log("REFRESH");
+  // console.log("REFRESH");
   browserHistory.replace(location);
 }
+
+Store.subscribe(() => {
+  saveState({
+    user: Store.getState().user
+  });
+})
 
 var routes = ReactDOM.render(
     <Router history={browserHistory}>
