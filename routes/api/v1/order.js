@@ -5,7 +5,7 @@ var sessionHelper = require('../../../server/helpers/session');
 
 router.post('/add', function(req, res, next) {
   req.body.PatronID = sessionHelper.currentUserId(req, res);
-  req.body.Status = "Awaiting Approval"
+  req.body.Status = 0
   models.order.create(req.body).catch(
     function(error) {
       res.status(401).json({

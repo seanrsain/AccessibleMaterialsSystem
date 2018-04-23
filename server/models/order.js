@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     itemId: { type: DataTypes.INTEGER},
     studentId: { type: DataTypes.INTEGER},
     Quantity: { type: DataTypes.INTEGER},
-    Status: { type: DataTypes.STRING},
+    Status: { type: DataTypes.INTEGER},
     DateOfOrder: { type: DataTypes.DATE},
     PatronID: { type: DataTypes.INTEGER}
   });
