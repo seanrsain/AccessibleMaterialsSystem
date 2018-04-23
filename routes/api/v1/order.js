@@ -80,4 +80,17 @@ router.put('/reassign', function(req, res, next) {
   });
 });
 
+router.put('/cancel', function(req, res, next) {
+  req.body.OrderID = parseInt(req.body.OrderID);
+  models.order.destroy({
+    where: {
+      id: req.body.OrderID
+    }
+  }).done(function() {
+    res.status(200).json({
+      'message': 'Order deleted'
+    })
+  })
+});
+
 module.exports = router;
