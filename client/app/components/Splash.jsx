@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import Login from './Login.jsx';
 
 var Splash = React.createClass({
@@ -10,7 +11,7 @@ var Splash = React.createClass({
           <p className="Splash__text">The Georgia Instructional Materials Center (GIMC) is a unit within the Division for Special Education Services and Supports. The GIMC provides accessible educational materials (AEMs) to all of Georgia’s eligible K-12 students.</p>
           <p className="Splash__text">Create an account with GIMC to order materials for disabled and visually impaired students:
             <span className="Splash__patronButtons">
-              <button className="Splash__button">Create Patron Account</button>
+              <Link to={`/signup`} className="Splash__createAccount"><button className="Splash__button">Create Patron Account</button></Link>
               <button className="Splash__button">Patron FAQ</button>
             </span>
           </p>

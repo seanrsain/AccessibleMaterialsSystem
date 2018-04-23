@@ -9,10 +9,11 @@ var SignUp = React.createClass({
   _submit: function(e) {
     e.preventDefault();
     // TODO: Use AjaxPromise.
+    if(!confirm('The GIMC Registration and Ordering System provides access to student educational data for Georgia’s K-12 public school students.  As a condition of use, each GIMC Registration and Ordering System user must agree to comply with the Family Educational Rights and Privacy Act (FERPA) policies before access is granted.  By proceeding to the Login below you are agreeing to protect student identity and abide by FERPA’s regulations, click the “Ok” button below.  You will then be granted access.')) return false;
     $.post("api/user/signup", $("#signup-form").serialize())
       .done(function(data){
-        console.log(data);
-        alert(`User ${data.username} successfully signed up.`);
+        // console.log(data);
+        // alert(`User ${data.username} successfully signed up.`);
         Store.dispatch(setUser(data));
         browserHistory.push('/');
       })

@@ -37,5 +37,6 @@ const map = {
 
 export const district = (id) => map.Districts[id]
 export const disability = (id) => map.DisabilityStatus[id]
+export const language = (id) => map.Languages[id]
 export const studentStatus = (id) => map.StudentStatus[id]
 export const orderStatus = (id) => map.OrderStatus[id]
